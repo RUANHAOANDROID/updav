@@ -33,7 +33,10 @@ var uploadCmd = &cobra.Command{
 
 		for _, filePath := range parts {
 			file, _ := os.Open(filePath)
-			err := c.WriteStream(remoteDir+"/"+filePath, file, 0644)
+			//get filePath file Name
+			pathParts := strings.Split(filePath, "/")
+			fileName := pathParts[len(pathParts)-1]
+			err := c.WriteStream(remoteDir+"/"+fileName, file, 0644)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -49,7 +52,7 @@ func init() {
 	uploadCmd.Flags().StringVarP(&user, "user", "a", "", "User")
 	uploadCmd.Flags().StringVarP(&pwd, "pwd", "p", "", "Password")
 	uploadCmd.Flags().StringVarP(&files, "files", "f", "", "Files:file1.txt,file2.txt")
-	uploadCmd.Flags().StringVarP(&remoteDir, "remote-dir", "r", "", "/data/../auto+file")
+	uploadCmd.Flags().StringVarP(&remoteDir, "remote-dir", "r", "", "/data/test")
 }
 
 func main() {
